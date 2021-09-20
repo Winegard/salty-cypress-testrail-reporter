@@ -10,6 +10,7 @@ var TestRail = /** @class */ (function () {
     }
     TestRail.prototype.isRunToday = function () {
         var _this = this;
+        console.log('testrail options:', this.options)
         return axios({
             method: 'get',
             url: this.base + "/get_runs/" + this.options.projectId,
@@ -19,6 +20,8 @@ var TestRail = /** @class */ (function () {
                 password: this.options.password,
             }
         }).then(function (response) {
+            console.log('testrail response', response)
+            console.log('testrail response data', response.data[0])
             _this.lastRunDate = moment.unix(response.data[0].created_on).format('MM/DD/YYYY');
             // set current date with same format as this.lastRunDate
             _this.currentDate = moment(new Date()).format('L');
