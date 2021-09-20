@@ -10,7 +10,6 @@ var TestRail = /** @class */ (function () {
     }
     TestRail.prototype.isRunToday = function () {
         var _this = this;
-        console.log('testrail options:', this.options)
         return axios({
             method: 'get',
             url: this.base + "/get_runs/" + this.options.projectId,
@@ -20,13 +19,11 @@ var TestRail = /** @class */ (function () {
                 password: this.options.password,
             }
         }).then(function (response) {
-            console.log('testrail response', response)
-            console.log('testrail response data', response.data)
             _this.lastRunDate = moment.unix(response.data.runs[0].created_on).format('MM/DD/YYYY');
             // set current date with same format as this.lastRunDate
             _this.currentDate = moment(new Date()).format('L');
             if (_this.lastRunDate === _this.currentDate) {
-                console.log("Test Run already created today. Posting results to Test Run ID: R" + response.data[0].id);
+                console.log("Test Run already created today. Posting results to Test Run ID: R" + response.data.runs[0].id);
                 return true;
             }
             return false;
@@ -89,7 +86,7 @@ var TestRail = /** @class */ (function () {
                     password: this.options.password,
                 }
             }).then(function (response) {
-                _this.runId = response.data[0].id;
+                _this.runId = response.data.runs[0].id;
                 console.log("Publishing results to latest run: " + _this.runId);
                 publishToAPI();
             });
