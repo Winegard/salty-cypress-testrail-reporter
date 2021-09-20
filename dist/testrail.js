@@ -21,8 +21,8 @@ var TestRail = /** @class */ (function () {
             }
         }).then(function (response) {
             console.log('testrail response', response)
-            console.log('testrail response data', response.data[0])
-            _this.lastRunDate = moment.unix(response.data[0].created_on).format('MM/DD/YYYY');
+            console.log('testrail response data', response.data)
+            _this.lastRunDate = moment.unix(response.data.runs[0].created_on).format('MM/DD/YYYY');
             // set current date with same format as this.lastRunDate
             _this.currentDate = moment(new Date()).format('L');
             if (_this.lastRunDate === _this.currentDate) {
